@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>My First Dashboard</title>
+    <link rel="stylesheet" href="../static/bootstrap/css/bootstrap.min.css">
+
+    <script src="{{url_for('static',filename='./bootstrap/js/bootstrap.min.js')}}"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.0.8/fullpage.min.js"
+        integrity="sha256-caNcSA0LvOCX90PTuEbwl+V09xPMca13CJUasl+VCtk=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../static/css/styles.css">
+</head>
+
+<body>
+    <div id="fullpage">
+        <div id="fullpage">
+
+            <!-- LCP -->
+            <div class="section clearfix"><br>
+                <span class="display-4 text-center w-100 d-block font-weight-bold">Long Term Water Consumption
+                    Prediction
+                    Plan</span>
+                <br>    
+                <div class="jumbotron jumbotron-fluid clearfix">
+                    <div class="container">
+                        <h1 class="display-4">Approach</h1>
+                        <br>
+                        <p class="lead">
+                            The Long Term Capacity Planning problem Requires data of annual water consumption rate of Mumbai.
+                            Since the inavailablity of good datasets we have tried to create data from the following factors
+                            
+                            <font size="5">
+                            <ul>
+                            <li>Population and Annual Change</li>
+                            <li>Literacy and Socio Economic factors</li>
+                            <li>Temperature</li>
+                            <li>Industry</li>
+                            <ul>
+                                <li>IT Sector</li>
+                                <li>Construction Sector</li>
+                                <li>Manufacturing</li>
+                                <li>Others</li>
+                            </ul>
+                            <li>GDP Trends</li>
+                            <li>Vehicle Cleaning</li>
+                            <li>Large Buildings</li>
+                            </ul>
+                        </font>
+
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- population -->
+            <div class="section clearfix">
+                <span class="display-4 text-center w-100 d-block font-weight-bold">Population Statistics</span>
+
+                <div class="my-auto clearfix">
+                    <div class="container shadow-lg chart  float-left my-5 mx-4 " style="width:45%" id="population">
+
+                        <script>
+                            var graphs_population = {{ json_population | safe}};
+                            var layout = { barmode: 'stack' ,title:'Population of Mumbai 1950 - 2020',xaxis: {title: 'Years'}, yaxis: {title: 'Census'} };
+                            Plotly.newPlot('population', graphs_population, layout);
+                        </script>
+                    </div>
+
+                    <div class="container shadow-lg chart  float-left my-5 mx-4 " style="width:45%" id="annual">
+
+                        <script>
+                            var graphs_anuual = {{ json_annualChange | safe}};
+                            var layout = {title:'Annual Change of Population in Mumbai 1950 - 2020',xaxis: {title: 'Years'}, yaxis: {title: 'Percentage'} };
+                            Plotly.plot('annual', graphs_anuual, layout);
+                        </script>
+                    </div>
+
+                   
+                    <!-- <div class="card float-left ml-5 my-5" style="width: 45%;">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the card's content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div> -->
+                </div>
+                <div class="jumbotron jumbotron-fluid clearfix">
+                    <div class="container">
+                        <h1 class="display-4">Approach</h1>
+                        <p class="lead w-100 d-block">Due to unavailaibility of direct dataset we use population as the base. From the below sources we have found that each person on an average consumes 135 liters of water per day.</p>
+                            <a href="http://worldpopulationreview.com/world-cities/mumbai-population/" class="btn btn-primary">View Data Source</a>
+                    </div>
+                </div>
+                <!-- </div> -->
+            </div>
+
+            <!-- literacy -->
+            <div class="section">
+
+                <span class="display-4 text-center w-100 d-block font-weight-bold">Socio Economic and Literacy Water Usage Variation</span>
+
+                <div class="my-auto clearfix">
+                    <div class="container shadow-lg chart  float-left my-5 mx-4 " style="width:45%" id="literacy">
+
+                        <script>
+                            var graphs_literacy = {{ json_literacy | safe}};
+                            var layout = { title:'Literacy Distribution of Mumbai 1950-2011',xaxis: {title: 'Years'}, yaxis: {title: 'Percentage'} };
+                            Plotly.plot('literacy', graphs_literacy,layout);
+                        </script>
+                    </div>
+                    <div class="container shadow-lg chart  float-left my-5 mx-4 " style="width:45%" id="literacy_image">
+                        <img src="static/literacy.jpeg" style="width:800px;height:450px;" alt="" srcset="">
+                    </div>
+
+                </div>
+                <div class="jumbotron jumbotron-fluid clearfix">
+                    <div class="container">
+                        <h1 class="display-4">Approach</h1>
+                        <p class="lead">From our research we found out that sector E socioeconomic class of people are illeterates and Sector A are literates. Therefore population is divided into two sets as we observed a significant difference in water usage between them that is, sector E consumes 78.9 lcpd and sector A consumes 102.1 lcpd.
+
+                         </p>
+                            <a href="https://data.gov.in/resources/literacy-rate-india-state-wise-upto-2011" class="btn btn-primary">View Data Source</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- temperature -->
+            <div class="section">
+
+                <span class="display-4 text-center w-100 d-block font-weight-bold">Temperature</span>
+
+                <div class="my-auto clearfix w-100 d-block">
+
+                    <div class="container shadow-lg chart my-5 h-100 ml-auto" id="temperature">
+
+                        <script>
+                            var graphs_temperature = {{ json_temperature | safe}};
+                            var layout = { title:'Temperature Distribution of Mumbai 1901 - 2017',xaxis: {title: 'Years'}, yaxis: {title: '°C'} };
+                            Plotly.plot('temperature', graphs_temperature,layout);
+                        </script>
+                    </div>
+
+                </div>
+                <div class="jumbotron jumbotron-fluid clearfix">
+                    <div class="container">
+                        <h1 class="display-4">Approach</h1>
+                        <p class="lead"> Temperature was significantly correlated to water consumption. It was estimated
+                            that under current conditions water consumption will increase by an average of 34 liters per
+                            capita per day (LCD) for every 1 °C increase in average daily temperatures during July and
+                            August.</p>
+                            <a href="https://data.gov.in/resources/monthly-seasonal-and-annual-mean-temp-series-1901-2017" class="btn btn-primary">Temperature Dataset</a>
+                            <a href="http://blogs.ubc.ca/mstaats8/results-and-discussion/consumption-trends/" class="btn btn-primary">Water Usage Data Source</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- industry pie -->
+            <div class="section clearfix">
+                <span class="display-4 text-center w-100 d-block font-weight-bold">Industry Distribution</span>
+
+                <div class="my-auto clearfix">
+
+                    <div class="container shadow-lg chart w-50 float-left my-5 ml-2 width" id="industrypie">
+
+                        <script>
+                            var graphs_pie = {{ json_pie | safe}};
+                            var layout = { title:'Industry Distribution of Mumbai'};
+                            Plotly.newPlot('industrypie', graphs_pie, layout);
+                        </script>
+                    </div>
+                    <div class="card float-left ml-5 my-5" style="width: 45%;">
+                        <div class="card-body">
+                            <h5 class="card-title">Approach</h5>
+                            <p class="card-text">
+                                In Mumbai we found the Distribution of Industries from the Following Data Sources<br><br>
+                                <a href="http://dcmsme.gov.in/dips/state_wise_profile_16-17/Maharashtra%20Industrial%20State%20Profile%202016-17-Final.pdf" class="btn btn-primary">Count of Industries</a><br><br>
+
+                                From the Above Sectors we found the Sectors which effect water consumption most namely<br>
+                                IT<br>
+                                Construction<br>
+                                Manufacturing<br>
+                                Various<br>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="jumbotron jumbotron-fluid clearfix">
+                    <div class="container">
+                        <h1 class="display-4">Approach</h1>
+                        <p class="lead">
+                        We also found the Average water consumption used by each of these Sectors of 2010
+                        We have already considered the water of large buildings so IT building were a part of it and we have not included it here again.
+                        </p>
+                        
+                    </div>
+                </div>
+                <!-- </div> -->
+            </div>
+
+            <!-- GDP Trends-->
+            <div class="section">
+
+                <span class="display-4 text-center w-100 d-block font-weight-bold">GDP Trends</span>
+
+                <div class="my-auto clearfix">
+
+                    <div class="container shadow-lg chart  float-left my-5 mx-4 " style="width:45%" id="gdp">
+
+                        <script>
+                            var graphs_gdp = {{ json_ind_gdp | safe}};
+                            var layout = { title:'GDP Distribution of Mumbai 1950 - 2011',xaxis: {title: 'Years'}, yaxis: {title: 'Percentage'} };
+                            Plotly.plot('gdp', graphs_gdp, layout);
+                        </script>
+                    </div>
+                    <div class="container shadow-lg chart  float-right my-5 mx-5 " style="width:45%" id="gdp_diff">
+
+                        <script>
+                            var graphs_diff = {{ json_ind_diff | safe } };
+                            var layout = { title:'GDP Annual Change of Mumbai 1950 - 2011',xaxis: {title: 'Years'}, yaxis: {title: 'Percentage'} };
+                            Plotly.plot('gdp_diff', graphs_diff, layout);
+                        </script>
+                    </div>
+
+                </div>
+                <div class="jumbotron jumbotron-fluid clearfix">
+                    <div class="container">
+                        <h1 class="display-4">Approach</h1>
+                        <p class="lead">
+                        As we found that as Dataset of Count of Indutries in Mumbai was not available we are using GDP variation to get count of industries and multiply it with water consumption of each
+                        </p>
+                        <a href="https://data.gov.in/catalog/gdp-india-and-major-sectors-economy-share-each-sector-gdp-and-growth-rate-gdp-and-other?filters%5Bfield_catalog_reference%5D=88141&format=json&offset=0&limit=6&sort%5Bcreated%5D=desc" class="btn btn-primary">GDP Growth</a>
+                        <a href="https://www.brookings.edu/research/global-metro-monitor" class="btn btn-primary">Industries Share to GDP</a>
+                    </div>
+                </div>
+            </div>
+
+
+             <!-- Vehicle -->
+            <div class="section clearfix">
+                <span class="display-4 text-center w-100 d-block font-weight-bold">Number of Vehicles</span>
+
+                <div class="my-auto clearfix">
+
+                    <div class="container shadow-lg chart my-5 ml-auto" id="vehicle">
+
+                        <script>
+                            var graphs_vehicle = {{ json_vehicle | safe}};
+                            var layout = { title:'Number of Vehicles in  Mumbai 1980 - 2018',xaxis: {title: 'Years'}, yaxis: {title: 'Count'} };
+                            
+                            Plotly.newPlot('vehicle', graphs_vehicle, layout);
+                        </script>
+                    </div>
+                    <!-- <div class="card float-left ml-5 my-5" style="width: 45%;">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the card's content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div> -->
+                </div>
+                <div class="jumbotron jumbotron-fluid clearfix">
+                    <div class="container">
+                        <h1 class="display-4">Approach</h1>
+                        <p class="lead">From an article in TOI on "The growth of car sales in mumbai" we found that the sales has tremendously increased from 2006 onwards.As a result the amount of water consumed in car washing accounts to about 200 liters per car. Which significantly contributes to the overall water consumption due to increase in car sales. 
+                        </p>
+                        <a href="https://timesofindia.indiatimes.com/city/mumbai/from-20-3-lakh-to-32-lakh-citys-vehicle-count-up-56-in-just-5-years/articleshow/62501721.cms" class="btn btn-primary">TOI Article</a>
+                            <a href="https://timesofindia.indiatimes.com/city/ludhiana/car-washing-centres-guzzling-1700-kilolitre-of-water-per-day-ppcb-study/articleshow/65002139.cms" class="btn btn-primary">Water Consumption</a>
+                    </div>
+                </div>
+                <!-- </div> -->
+            </div>
+
+
+            <!-- commercial Building -->
+            <div class="section clearfix">                
+                <span class="display-4 text-center w-100 d-block font-weight-bold">Commercial Buildings</span>
+
+                <div class="my-auto clearfix">
+
+                    <div class="container shadow-lg chart my-5 ml-auto" id="largebuilding">
+
+                        <script>
+                            var graphs_largebuilding = {{ json_large_building | safe}};
+                            var layout = { title:'Large Buildings in Mumbai 1950 - 2011 (>20,000 sqr feet)  ',xaxis: {title: 'Years'}, yaxis: {title: 'Count'} };
+                            Plotly.newPlot('largebuilding', graphs_largebuilding, layout);
+                        </script>
+                    </div>
+                    <!-- <div class="card float-left ml-5 my-5" style="width: 45%;">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the card's content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div> -->
+                </div>
+                <div class="jumbotron jumbotron-fluid clearfix">
+                    <div class="container">
+                        <h1 class="display-4">Approach</h1>
+                        <p class="lead">According to a global research paper we found that water consumed by 1 commercial building with around 200,000 squarefeet of area consumes about 8 lac liters of water/day. This makes a significant difference when the total number of commercial buildings are considered.</p>
+                            <a href="https://www.eia.gov/consumption/commercial/reports/2012/water/" class="btn btn-primary">Reference</a>
+                            
+                    </div>
+                </div>
+                <!-- </div> -->   
+            </div>
+
+
+            <!-- Predictions -->
+            <div class="section clearfix">
+                <span class="display-4 text-center w-100 d-block font-weight-bold">Water Prediction</span>
+
+                <div class="my-auto clearfix">
+
+                    <div class="container shadow-lg chart w-50 float-left my-5 ml-2 width" id="totalconsumption">
+
+                        <script>
+                            var graphs_total = {{ json_total | safe}};
+                            var layouts = { title:'Water Consumption of Mumbai 1950 - 2040',xaxis: {title: 'Years'}, yaxis: {title: 'Liters'} };
+                            
+                            Plotly.newPlot('totalconsumption', graphs_total, layouts);
+                        </script>
+                    </div>
+                    <div class="card float-left ml-5 my-5" style="width: 45%;">
+                        <div class="card-body">
+                            <h5 class="card-title">Estimated Water Consumption Prediction</h5>
+                            <p class="card-text">
+                                <div class="dropdown">
+                                    <select name="ranges" id="ranges">
+                                        <option value="" disabled selected>select ranges</option>
+                                        <option value="2020-2021">2020-21</option>
+                                        <option value="2021-2022">2021-22</option>
+                                        <option value="2022-2023">2022-23</option>
+                                        <option value="2023-2024">2023-24</option>
+                                        <option value="2024-2025">2024-25</option>
+                                        <option value="2025-2026">2025-26</option>
+                                    </select>
+
+                                    <p id="results">
+                                        <h4 id="predicted"></h1>
+                                        <h4 id="upperbound"></h1>
+                                    </p>
+                                    <script>
+                                        let ranges = document.getElementById('ranges');
+
+                                        let predicted = document.getElementById('predicted');
+                                        let upperbound = document.getElementById('upperbound');
+
+                                        ranges.addEventListener('change', function () {
+
+                                            if (ranges.options[ranges.selectedIndex].value === '2020-2021') {
+
+                                                predicted.innerHTML = `predicted value`;
+                                                upperbound.innerHTML = `upperbound value is`
+                                            } else {
+                                                predicted.innerHTML = '';
+                                                upperbound.innerHTML = '';
+                                            }
+
+                                        });
+                                    </script>
+                                </div>
+                            </p>
+                            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="jumbotron jumbotron-fluid clearfix">
+                    <div class="container">
+                        <h1 class="display-4">Fluid jumbotron</h1>
+                        <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its
+                            parent.</p>
+                    </div>
+                </div>
+                <!-- </div> -->
+            </div>
+
+            <!-- Arima model -->
+            <div class="section clearfix"><br>
+                <span class="display-4 text-center w-100 d-block font-weight-bold">Arima Model</span>
+                <div class="jumbotron jumbotron-fluid clearfix">
+                    <div class="container">
+                        
+                        <p class="lead float-left ml-4 my-4" style="width: 30%;"><span class="font-weight-bold">AR:</span>
+                            <i>Autoregression.</i> Uses the dependent relationship between an observation and some number of lagged observations.
+                        </p>
+
+                        <p class="lead float-left ml-4 my-4" style="width: 30%;"><span class="font-weight-bold">I:</span>
+                            <i> Integrated.</i> The useof differencing of raw observations to make the time series stationary.
+                        </p>
+
+                        <p class="lead float-left ml-4 my-4" style="width: 30%;"><span class="font-weight-bold">MA:</span>
+                            <i>Moving Average.</i> Uses the dependency between an observation and a residual error from a moving average model applied to lagged observations.
+                        </p>
+                    </div>
+                </div>
+
+                <div>
+                    <p class="lead float-left ml-4 my-4" style="width: 30%;">
+                    The parameters of the ARIMA model are defined as follows:<br>
+                    <ul>
+                        <li> <b>p:</b> The number of lag observations included in the model, also called the lag order. </li>
+                        <li> <b>d:</b> The number of lag observations included in the model, also called the lag order. </li>
+                        <li> <b>q:</b> The number of lag observations included in the model, also called the lag order. </li>
+                    </ul>
+                    </p>
+                    <p class="lead float-left ml-4 my-4" style="width: 30%;">
+                        
+                </p>
+                </div>
+                
+            </div>
+
+            <!-- Metrics -->
+            <div class="section">
+                <span class="display-4 text-center w-100 d-block font-weight-bold">Metrics</span>
+
+                <div class="my-auto clearfix">
+
+                    <!-- <div class="container shadow-lg chart w-50 float-left my-5 ml-2 width" id="totalconsumption">
+                        <script>
+                            var graphs_total = {{ json_total | safe}};
+                            var layout = { barmode: 'stack' };
+                            Plotly.newPlot('totalconsumption', graphs_total, layout);
+                        </script>
+                    </div> -->
+                    <div class="card float-left ml-4 my-4" style="width: 30%;">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of
+                                the card's content.</p>
+                            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                        </div>
+                    </div>
+
+                    <div class="card float-left ml-4 my-4" style="width: 30%;">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of
+                                the card's content.</p>
+                            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                        </div>
+                    </div>
+
+                    <div class="card float-left ml-4 my-4" style="width: 30%;">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                                of
+                                the card's content.</p>
+                            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                        </div>
+                    </div>
+
+                </div>
+                <!-- <div class="jumbotron jumbotron-fluid clearfix">
+                    <div class="container">
+                        <h1 class="display-4">Fluid jumbotron</h1>
+                        <p class="lead">This is a modified jumbotron that occupies the entire horizontal space of its
+                            parent.</p>
+                    </div>
+                </div> -->
+                <!-- </div> -->
+            </div>
+
+        </div>
+
+        <script src="{{ url_for('static', filename='js/jquery-1.11.1.min.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/plots.js') }}"></script>
+        <script>
+            new fullpage('#fullpage', {
+                anchors: ['LCP', 'Population', 'AnnualChange', 'Temperature', 'IndustryPie', 'GDP','Vehicle','LargeBuilding', 'Prediction', 'Arima', 'Metrics'],
+                sectionsColor: ['rgba(250,250,250,0.9)', 'rgba(250,250,250,0.9)', 'rgba(250,250,250,0.9)', 'rgba(250,250,250,0.9)', 'rgba(250,250,250,0.9)', 'rgba(250,250,250,0.9)', 'rgba(250,250,250,0.9)', 'rgba(250,250,250,0.9)', 'rgba(250,250,250,0.9)'],
+            });
+        </script>
+</body>
+
+</html>
